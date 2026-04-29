@@ -1,3 +1,6 @@
+// components/StatsPanel.tsx
+// 3 stat cards — white cards with soft shadow
+
 import { View, Text } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
@@ -9,24 +12,36 @@ type Props = {
 
 export default function StatsPanel({ total, completed, pending }: Props) {
   return (
-    <View className="flex-row mx-4 mt-4 mb-2 gap-2">
+    <View className="flex-row mx-5 mt-5 mb-2 gap-3">
 
-      <View className="flex-1 items-center bg-gray-100 rounded-2xl py-3">
-        <RemixIcon name="list-check" size={20} color="#6b7280" />
-        <Text className="text-gray-800 text-xl font-bold mt-1">{total}</Text>
-        <Text className="text-gray-500 text-xs">Total</Text>
+      {/* Total */}
+      <View
+        className="flex-1 items-center bg-white rounded-2xl py-4"
+        style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 3 }}
+      >
+        <RemixIcon name="list-check" size={18} color="#6366f1" />
+        <Text className="text-gray-900 text-2xl font-bold mt-1">{total}</Text>
+        <Text className="text-gray-400 text-xs mt-0.5">Total</Text>
       </View>
 
-      <View className="flex-1 items-center bg-green-50 rounded-2xl py-3">
-        <RemixIcon name="checkbox-circle-line" size={20} color="#22c55e" />
-        <Text className="text-green-600 text-xl font-bold mt-1">{completed}</Text>
-        <Text className="text-gray-500 text-xs">Done</Text>
+      {/* Done */}
+      <View
+        className="flex-1 items-center bg-white rounded-2xl py-4"
+        style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 3 }}
+      >
+        <RemixIcon name="checkbox-circle-line" size={18} color="#6366f1" />
+        <Text className="text-gray-900 text-2xl font-bold mt-1">{completed}</Text>
+        <Text className="text-gray-400 text-xs mt-0.5">Done</Text>
       </View>
 
-      <View className="flex-1 items-center bg-orange-50 rounded-2xl py-3">
-        <RemixIcon name="time-line" size={20} color="#f97316" />
-        <Text className="text-orange-500 text-xl font-bold mt-1">{pending}</Text>
-        <Text className="text-gray-500 text-xs">Pending</Text>
+      {/* Pending */}
+      <View
+        className="flex-1 items-center bg-white rounded-2xl py-4"
+        style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 3 }}
+      >
+        <RemixIcon name="time-line" size={18} color="#6366f1" />
+        <Text className="text-gray-900 text-2xl font-bold mt-1">{pending}</Text>
+        <Text className="text-gray-400 text-xs mt-0.5">Pending</Text>
       </View>
 
     </View>
