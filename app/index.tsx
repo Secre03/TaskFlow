@@ -1,21 +1,12 @@
 // app/index.tsx
-// ─────────────────────────────────────────────
 // MAIN SCREEN — all app logic lives here.
 //
-// What this file does:
-//   1. Wraps the whole screen in SafeAreaView
-//      so content never goes behind the status
-//      bar or the bottom navigation bar
-//   2. Loads saved tasks from AsyncStorage when app opens
-//   3. Saves tasks to AsyncStorage every time something changes
-//   4. Handles: add, toggle, delete, mark all, clear completed
-//   5. Passes data + functions down to components as props
-// ─────────────────────────────────────────────
+// Instead of FlatList, we use ScrollView + tasks.map()
+// which is easier to read and understand for beginners.
 
 import { useState, useEffect } from "react";
 import {
-  View,
-  FlatList,
+  ScrollView,
   Alert,
   StatusBar,
   KeyboardAvoidingView,
@@ -35,31 +26,30 @@ import EmptyState from "../components/EmptyState";
 // The Task type
 import { Task } from "../types/task";
 
-// The key name used to store tasks in AsyncStorage
+// The key used to save/load from AsyncStorage
 const STORAGE_KEY = "taskflow_tasks";
 
 export default function Index() {
 
-  // tasks = array of all task objects
+  // tasks = the array of all task objects
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  // inputText = what the user is typing in the input box
+  // inputText = what the user is currently typing
   const [inputText, setInputText] = useState("");
 
-  // ── Calculated stats (no extra state needed) ──
+  // Calculated stats — no extra state needed
   const total = tasks.length;
   const completed = tasks.filter((t) => t.completed).length;
   const pending = total - completed;
 
 
-  // ── Run once when app opens: load saved tasks ──
+  // Run once when the app opens — load saved tasks
   useEffect(() => {
     loadTasks();
   }, []);
 
 
-  // ── SAVE tasks to AsyncStorage ─────────────────
-  // We convert the array to a JSON string to store it
+  // SAVE — convert array to JSON string and store it
   async function saveTasks(updatedTasks: Task[]) {
     try {
       const jsonString = JSON.stringify(updatedTasks);
@@ -70,8 +60,7 @@ export default function Index() {
   }
 
 
-  // ── LOAD tasks from AsyncStorage ───────────────
-  // We parse the JSON string back into an array
+  // LOAD — get JSON string and convert back to array
   async function loadTasks() {
     try {
       const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
@@ -85,49 +74,47 @@ export default function Index() {
   }
 
 
-  // ── ADD a new task ──────────────────────────────
+  // ADD a new task
   function addTask() {
     const trimmed = inputText.trim();
 
-    // Block empty tasks
+    // Stop if the input is empty
     if (!trimmed) {
       Alert.alert("Empty Task", "Please type something before adding.");
       return;
     }
 
-    // Build the new task object
+    // Create the new task object
     const newTask: Task = {
-      id: Date.now().toString(), // timestamp = simple unique ID
+      id: Date.now().toString(), // timestamp as simple unique ID
       text: trimmed,
       completed: false,
     };
 
-    // Put new task at the top of the list
+    // Add to the top of the list
     const updatedTasks = [newTask, ...tasks];
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
 
-    // Clear the input box
+    // Clear input box
     setInputText("");
   }
 
 
-  // ── TOGGLE a task done / undone ─────────────────
+  // TOGGLE a task between done and not done
   function toggleTask(id: string) {
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
-        // Flip completed to its opposite
         return { ...task, completed: !task.completed };
       }
-      return task; // leave all other tasks unchanged
+      return task;
     });
-
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   }
 
 
-  // ── DELETE one task (with confirmation) ─────────
+  // DELETE one task with a confirmation alert
   function deleteTask(id: string) {
     Alert.alert(
       "Delete Task",
@@ -138,7 +125,6 @@ export default function Index() {
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            // Keep every task except the one with this id
             const updatedTasks = tasks.filter((task) => task.id !== id);
             setTasks(updatedTasks);
             saveTasks(updatedTasks);
@@ -149,7 +135,7 @@ export default function Index() {
   }
 
 
-  // ── MARK ALL tasks as complete ──────────────────
+  // MARK ALL tasks as complete
   function markAllComplete() {
     const updatedTasks = tasks.map((task) => ({ ...task, completed: true }));
     setTasks(updatedTasks);
@@ -157,13 +143,12 @@ export default function Index() {
   }
 
 
-  // ── DELETE all completed tasks ──────────────────
+  // DELETE all completed tasks
   function deleteCompleted() {
     if (completed === 0) {
       Alert.alert("Nothing to clear", "There are no completed tasks.");
       return;
     }
-
     Alert.alert(
       "Clear Completed",
       `Remove all ${completed} completed task(s)?`,
@@ -173,7 +158,6 @@ export default function Index() {
           text: "Clear",
           style: "destructive",
           onPress: () => {
-            // Keep only the tasks that are NOT completed
             const updatedTasks = tasks.filter((task) => !task.completed);
             setTasks(updatedTasks);
             saveTasks(updatedTasks);
@@ -184,12 +168,10 @@ export default function Index() {
   }
 
 
-  // ── RENDER ──────────────────────────────────────
+  // RENDER
   return (
-    // SafeAreaView automatically adds padding so content
-    // stays away from the notch, status bar, and bottom bar
+    // SafeAreaView keeps content away from notch and bottom bar
     <SafeAreaView className="flex-1 bg-gray-50">
-
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
 
       <KeyboardAvoidingView
@@ -197,20 +179,20 @@ export default function Index() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
 
-        {/* App title */}
+        {/* App title bar */}
         <Header />
 
-        {/* Stats: Total / Done / Pending */}
+        {/* Total / Done / Pending stats */}
         <StatsPanel total={total} completed={completed} pending={pending} />
 
-        {/* Input box to add tasks */}
+        {/* Type and add new tasks here */}
         <AddTaskInput
           value={inputText}
           onChange={setInputText}
           onAdd={addTask}
         />
 
-        {/* Bulk action buttons — only show when there are tasks */}
+        {/* Bulk action buttons — only visible when tasks exist */}
         {total > 0 && (
           <BulkActions
             onMarkAll={markAllComplete}
@@ -218,22 +200,29 @@ export default function Index() {
           />
         )}
 
-        {/* Task list — FlatList handles scrolling efficiently */}
-        <FlatList
-          data={tasks}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TaskItem
-              task={item}
-              onToggle={toggleTask}
-              onDelete={deleteTask}
-            />
-          )}
-          // Show empty state when list is empty
-          ListEmptyComponent={<EmptyState />}
+        {/* 
+          ScrollView + tasks.map() is the beginner-friendly way
+          to render a list. Each task becomes a TaskItem component.
+        */}
+        <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={total === 0 ? { flex: 1 } : { paddingBottom: 24 }}
-        />
+          contentContainerStyle={{ paddingBottom: 24, flexGrow: 1 }}
+        >
+
+          {/* Show empty state when there are no tasks */}
+          {tasks.length === 0 && <EmptyState />}
+
+          {/* Render each task as a TaskItem */}
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}        // key is required by React for lists
+              task={task}          // pass the task data
+              onToggle={toggleTask} // pass the toggle function
+              onDelete={deleteTask} // pass the delete function
+            />
+          ))}
+
+        </ScrollView>
 
       </KeyboardAvoidingView>
     </SafeAreaView>
