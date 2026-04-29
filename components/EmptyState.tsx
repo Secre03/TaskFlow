@@ -1,6 +1,3 @@
-// components/EmptyState.tsx
-// Shown when there are no tasks yet
-
 import { View, Text } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 

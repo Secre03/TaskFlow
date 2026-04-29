@@ -1,5 +1,5 @@
 export type Task = {
-  id: string;         // unique id for each task
-  text: string;       // label
-  completed: boolean; // if true done if not false "the task"
+  id: string;         
+  text: string;       
+  completed: boolean; // if done true if not false "the task"
 };
