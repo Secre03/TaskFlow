@@ -28,17 +28,15 @@ export default function Index() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
 
-  // Calculated stats
   const total = tasks.length;
   const completed = tasks.filter((t) => t.completed).length;
   const pending = total - completed;
 
-  // Load tasks once when app opens
   useEffect(() => {
     loadTasks();
   }, []);
 
-  // SAVE — store array as JSON string
+  // SAVE
   async function saveTasks(updatedTasks: Task[]) {
     try {
       const jsonString = JSON.stringify(updatedTasks);
@@ -48,7 +46,7 @@ export default function Index() {
     }
   }
 
-  // LOAD — get JSON string and parse back to array
+  // LOAD
   async function loadTasks() {
     try {
       const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
@@ -61,7 +59,7 @@ export default function Index() {
     }
   }
 
-  // ADD a new task
+  // ADD
   function addTask() {
     const trimmed = inputText.trim();
     if (!trimmed) {
@@ -79,7 +77,7 @@ export default function Index() {
     setInputText("");
   }
 
-  // TOGGLE done / undone
+  // TOGGLE
   function toggleTask(id: string) {
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
@@ -91,7 +89,7 @@ export default function Index() {
     saveTasks(updatedTasks);
   }
 
-  // DELETE one task with confirmation
+  // DELETE one
   function deleteTask(id: string) {
     Alert.alert(
       "Delete Task",
@@ -111,14 +109,14 @@ export default function Index() {
     );
   }
 
-  // MARK ALL complete
+  // MARK ALL
   function markAllComplete() {
     const updatedTasks = tasks.map((task) => ({ ...task, completed: true }));
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   }
 
-  // DELETE all completed
+  // CLEAR COMPLETED
   function deleteCompleted() {
     if (completed === 0) {
       Alert.alert("Nothing to clear", "There are no completed tasks.");
@@ -143,28 +141,28 @@ export default function Index() {
   }
 
   return (
-    // Light gray background makes white cards pop
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <StatusBar barStyle="dark-content" backgroundColor="#f9fafb" />
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
+      <StatusBar barStyle="light-content" backgroundColor="#6366f1" />
 
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        {/* Title */}
+
+        {/* Indigo banner header */}
         <Header />
 
-        {/* Stats */}
+        {/* Stats card overlapping the header */}
         <StatsPanel total={total} completed={completed} pending={pending} />
 
-        {/* Input */}
+        {/* Add task input */}
         <AddTaskInput
           value={inputText}
           onChange={setInputText}
           onAdd={addTask}
         />
 
-        {/* Bulk buttons — only when tasks exist */}
+        {/* Bulk actions label row — only when tasks exist */}
         {total > 0 && (
           <BulkActions
             onMarkAll={markAllComplete}
@@ -172,15 +170,13 @@ export default function Index() {
           />
         )}
 
-        {/* Task list using ScrollView + map */}
+        {/* Task list */}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 32, flexGrow: 1 }}
+          contentContainerStyle={{ paddingTop: 12, paddingBottom: 32, flexGrow: 1 }}
         >
-          {/* Empty state */}
           {tasks.length === 0 && <EmptyState />}
 
-          {/* One TaskItem per task */}
           {tasks.map((task) => (
             <TaskItem
               key={task.id}
