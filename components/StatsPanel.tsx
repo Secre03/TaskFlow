@@ -30,7 +30,9 @@ export default function StatsPanel({ total, completed, pending }: StatsProps) {
 
       <View className="flex-1 items-center py-4">
         <RemixIcon name="checkbox-circle-line" size={16} color="#6366f1" />
-        <Text className="text-gray-900 text-xl font-bold mt-1">{completed}</Text>
+        <Text className="text-gray-900 text-xl font-bold mt-1">
+          {completed}
+        </Text>
         <Text className="text-gray-400 text-xs">Done</Text>
       </View>
 

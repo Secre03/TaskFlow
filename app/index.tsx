@@ -1,6 +1,3 @@
-// app/index.tsx
-// MAIN SCREEN — all logic lives here
-
 import { useState, useEffect } from "react";
 import {
   ScrollView,
@@ -24,7 +21,6 @@ import { Task } from "../types/task";
 const STORAGE_KEY = "taskflow_tasks";
 
 export default function Index() {
-
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
 
@@ -36,7 +32,6 @@ export default function Index() {
     loadTasks();
   }, []);
 
-  // SAVE
   async function saveTasks(updatedTasks: Task[]) {
     try {
       const jsonString = JSON.stringify(updatedTasks);
@@ -46,7 +41,6 @@ export default function Index() {
     }
   }
 
-  // LOAD
   async function loadTasks() {
     try {
       const jsonString = await AsyncStorage.getItem(STORAGE_KEY);
@@ -59,7 +53,6 @@ export default function Index() {
     }
   }
 
-  // ADD
   function addTask() {
     const trimmed = inputText.trim();
     if (!trimmed) {
@@ -77,7 +70,6 @@ export default function Index() {
     setInputText("");
   }
 
-  // TOGGLE
   function toggleTask(id: string) {
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
@@ -89,34 +81,27 @@ export default function Index() {
     saveTasks(updatedTasks);
   }
 
-  // DELETE one
   function deleteTask(id: string) {
-    Alert.alert(
-      "Delete Task",
-      "Are you sure you want to delete this task?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => {
-            const updatedTasks = tasks.filter((task) => task.id !== id);
-            setTasks(updatedTasks);
-            saveTasks(updatedTasks);
-          },
+    Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => {
+          const updatedTasks = tasks.filter((task) => task.id !== id);
+          setTasks(updatedTasks);
+          saveTasks(updatedTasks);
         },
-      ]
-    );
+      },
+    ]);
   }
 
-  // MARK ALL
   function markAllComplete() {
     const updatedTasks = tasks.map((task) => ({ ...task, completed: true }));
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   }
 
-  // CLEAR COMPLETED
   function deleteCompleted() {
     if (completed === 0) {
       Alert.alert("Nothing to clear", "There are no completed tasks.");
@@ -136,7 +121,7 @@ export default function Index() {
             saveTasks(updatedTasks);
           },
         },
-      ]
+      ],
     );
   }
 
@@ -148,21 +133,16 @@ export default function Index() {
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-
-        {/* Indigo banner header */}
         <Header />
 
-        {/* Stats card overlapping the header */}
         <StatsPanel total={total} completed={completed} pending={pending} />
 
-        {/* Add task input */}
         <AddTaskInput
           value={inputText}
           onChange={setInputText}
           onAdd={addTask}
         />
 
-        {/* Bulk actions label row — only when tasks exist */}
         {total > 0 && (
           <BulkActions
             onMarkAll={markAllComplete}
@@ -170,10 +150,13 @@ export default function Index() {
           />
         )}
 
-        {/* Task list */}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingTop: 12, paddingBottom: 32, flexGrow: 1 }}
+          contentContainerStyle={{
+            paddingTop: 12,
+            paddingBottom: 32,
+            flexGrow: 1,
+          }}
         >
           {tasks.length === 0 && <EmptyState />}
 
@@ -186,7 +169,6 @@ export default function Index() {
             />
           ))}
         </ScrollView>
-
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

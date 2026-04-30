@@ -1,27 +1,21 @@
-// components/AddTaskInput.tsx
-// Full-width input with indigo add button on the right
-
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-type Props = {
+type InputProps = {
   value: string;
   onChange: (text: string) => void;
   onAdd: () => void;
 };
 
-export default function AddTaskInput({ value, onChange, onAdd }: Props) {
+export default function AddTaskInput({ value, onChange, onAdd }: InputProps) {
   const canAdd = value.trim().length > 0;
 
   return (
     <View className="mx-5 mt-6 mb-2">
-
-      {/* Section label */}
       <Text className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-2">
         New Task
       </Text>
 
-      {/* Input row */}
       <View
         className="flex-row items-center bg-white rounded-2xl px-4"
         style={{
@@ -42,7 +36,6 @@ export default function AddTaskInput({ value, onChange, onAdd }: Props) {
           returnKeyType="done"
         />
 
-        {/* Add button */}
         <TouchableOpacity
           onPress={onAdd}
           disabled={!canAdd}
@@ -51,12 +44,17 @@ export default function AddTaskInput({ value, onChange, onAdd }: Props) {
           }`}
           activeOpacity={0.8}
         >
-          <RemixIcon name="add-line" size={16} color={canAdd ? "white" : "#d1d5db"} />
-          <Text className={`text-xs font-semibold ${canAdd ? "text-white" : "text-gray-300"}`}>
+          <RemixIcon
+            name="add-line"
+            size={16}
+            color={canAdd ? "white" : "#d1d5db"}
+          />
+          <Text
+            className={`text-xs font-semibold ${canAdd ? "text-white" : "text-gray-300"}`}
+          >
             Add
           </Text>
         </TouchableOpacity>
-
       </View>
     </View>
   );
