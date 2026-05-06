@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableOpacity, Text, Pressable } from "react-native";
+import { View, TextInput, Text, Pressable } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
 type InputProps = {
