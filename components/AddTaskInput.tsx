@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import { View, TextInput, TouchableOpacity, Text, Pressable } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
 type InputProps = {
@@ -36,13 +36,12 @@ export default function AddTaskInput({ value, onChange, onAdd }: InputProps) {
           returnKeyType="done"
         />
 
-        <TouchableOpacity
+        <Pressable
           onPress={onAdd}
           disabled={!canAdd}
           className={`ml-2 px-4 py-2 rounded-xl flex-row items-center gap-1 ${
             canAdd ? "bg-indigo-500" : "bg-gray-100"
           }`}
-          activeOpacity={0.8}
         >
           <RemixIcon
             name="add-line"
@@ -54,7 +53,7 @@ export default function AddTaskInput({ value, onChange, onAdd }: InputProps) {
           >
             Add
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
 type ActionProps = {
@@ -14,25 +14,23 @@ export default function BulkActions({ onMarkAll, onClearDone }: ActionProps) {
       </Text>
 
       <View className="flex-row gap-3">
-        <TouchableOpacity
+        <Pressable
           onPress={onMarkAll}
           className="flex-row items-center gap-1"
-          activeOpacity={0.7}
         >
           <RemixIcon name="check-double-line" size={14} color="#6366f1" />
           <Text className="text-indigo-500 text-xs font-medium">All done</Text>
-        </TouchableOpacity>
+        </Pressable>
 
         <Text className="text-gray-300">·</Text>
 
-        <TouchableOpacity
+        <Pressable
           onPress={onClearDone}
           className="flex-row items-center gap-1"
-          activeOpacity={0.7}
         >
           <RemixIcon name="delete-bin-line" size={14} color="#9ca3af" />
           <Text className="text-gray-400 text-xs font-medium">Clear done</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
