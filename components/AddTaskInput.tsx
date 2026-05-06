@@ -8,7 +8,7 @@ type InputProps = {
 };
 
 const AddTaskInput = ({ value, onChange, onAdd }: InputProps) => {
-  const canAdd = value.trim().length > 0;
+  const canAdd = value.length > 0;
 
   return (
     <View className="mx-5 mt-6 mb-2">
