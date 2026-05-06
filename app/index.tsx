@@ -21,16 +21,12 @@ import { Task } from "../types/task";
 const STORAGE_KEY = "tasks";
 
 const Index = () => {
-
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
 
   const total = tasks.length;
   const completed = tasks.filter((task) => task.completed).length;
   const pending = total - completed;
-  
-  const text = inputText;
-
 
   useEffect(() => {
     loadTasks();
@@ -59,13 +55,13 @@ const Index = () => {
 
   const addTask = () => {
     const taskId = Date.now().toString();
-    if (!text) {
+    if (!inputText) {
       Alert.alert("Empty Task", "Please type something before adding.");
       return;
     }
     const newTask: Task = {
       id: taskId,
-      text: text,
+      text: inputText,
       completed: false,
     };
 
@@ -73,7 +69,7 @@ const Index = () => {
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
     setInputText("");
-  }
+  };
 
   const toggleTask = (taskId: string) => {
     const updatedTasks = tasks.map((task) => {
@@ -84,7 +80,7 @@ const Index = () => {
     });
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
-  }
+  };
 
   const deleteTask = (taskId: string) => {
     Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
@@ -99,13 +95,32 @@ const Index = () => {
         },
       },
     ]);
-  }
+  };
 
   const markAllComplete = () => {
-    const updatedTasks = tasks.map((task) => ({ ...task, completed: true }));
-    setTasks(updatedTasks);
-    saveTasks(updatedTasks);
-  }
+    if (pending === 0) {
+      Alert.alert("All Done", "All tasks are already completed.");
+      return;
+    }
+    Alert.alert(
+      "Mark All Complete",
+      `Mark all ${pending} pending task(s) as done?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Mark All",
+          onPress: () => {
+            const updatedTasks = tasks.map((task) => ({
+              ...task,
+              completed: true,
+            }));
+            setTasks(updatedTasks);
+            saveTasks(updatedTasks);
+          },
+        },
+      ],
+    );
+  };
 
   const deleteCompleted = () => {
     if (completed === 0) {
@@ -128,7 +143,7 @@ const Index = () => {
         },
       ],
     );
-  }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
@@ -177,6 +192,6 @@ const Index = () => {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-}
+};
 
 export default Index;
