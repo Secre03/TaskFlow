@@ -18,15 +18,20 @@ import EmptyState from "../components/EmptyState";
 
 import { Task } from "../types/task";
 
-const STORAGE_KEY = "taskflow_tasks";
+const STORAGE_KEY = "tasks";
 
-export default function Index() {
+
+const index = () => {
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
 
   const total = tasks.length;
   const completed = tasks.filter((t) => t.completed).length;
   const pending = total - completed;
+  
+  const text = inputText;
+
 
   useEffect(() => {
     loadTasks();
@@ -53,26 +58,27 @@ export default function Index() {
     }
   }
 
-  function addTask() {
-    const trimmed = inputText.trim();
-    if (!trimmed) {
+  const addTask = () => {
+    const taskId = Date.now().toString();
+    if (!text) {
       Alert.alert("Empty Task", "Please type something before adding.");
       return;
     }
     const newTask: Task = {
-      id: Date.now().toString(),
-      text: trimmed,
+      id: taskId,
+      text: text,
       completed: false,
     };
+
     const updatedTasks = [newTask, ...tasks];
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
     setInputText("");
   }
 
-  function toggleTask(id: string) {
+  const toggleTask = (taskId: string) => {
     const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
+      if (task.id === taskId) {
         return { ...task, completed: !task.completed };
       }
       return task;
@@ -81,14 +87,14 @@ export default function Index() {
     saveTasks(updatedTasks);
   }
 
-  function deleteTask(id: string) {
+  const deleteTask = (taskId: string) => {
     Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
         style: "destructive",
         onPress: () => {
-          const updatedTasks = tasks.filter((task) => task.id !== id);
+          const updatedTasks = tasks.filter((task) => task.id !== taskId);
           setTasks(updatedTasks);
           saveTasks(updatedTasks);
         },
@@ -96,13 +102,13 @@ export default function Index() {
     ]);
   }
 
-  function markAllComplete() {
+  const markAllComplete = () => {
     const updatedTasks = tasks.map((task) => ({ ...task, completed: true }));
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
   }
 
-  function deleteCompleted() {
+  const deleteCompleted = () => {
     if (completed === 0) {
       Alert.alert("Nothing to clear", "There are no completed tasks.");
       return;
@@ -173,3 +179,5 @@ export default function Index() {
     </SafeAreaView>
   );
 }
+
+export default index;
