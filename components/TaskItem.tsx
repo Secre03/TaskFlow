@@ -1,4 +1,4 @@
-import { View, Text,  Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 import { Task } from "../types/task";
 
@@ -8,7 +8,7 @@ type TaskItemProps = {
   onDelete: (id: string) => void;
 };
 
-export default function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
+const TaskItem = ({ task, onToggle, onDelete }: TaskItemProps) => {
   return (
     <View
       className="flex-row items-center mx-5 mb-3 bg-white rounded-2xl overflow-hidden"
@@ -26,10 +26,7 @@ export default function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         }`}
       />
 
-      <Pressable
-        onPress={() => onToggle(task.id)}
-        className="pl-4 pr-2 py-4"
-      >
+      <Pressable onPress={() => onToggle(task.id)} className="pl-4 pr-2 py-4">
         <RemixIcon
           name={
             task.completed
@@ -50,12 +47,11 @@ export default function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
         {task.text}
       </Text>
 
-      <Pressable
-        onPress={() => onDelete(task.id)}
-        className="px-4 py-4"
-      >
+      <Pressable onPress={() => onDelete(task.id)} className="px-4 py-4">
         <RemixIcon name="delete-bin-line" size={17} color="#fb6060" />
       </Pressable>
     </View>
   );
-}
+};
+
+export default TaskItem;

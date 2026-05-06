@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-export default function Header() {
+const Header = () => {
   return (
     <View className="bg-indigo-500 px-6 pt-6 pb-8">
       <View className="flex-row items-center justify-between mb-4">
@@ -28,4 +28,6 @@ export default function Header() {
       </View>
     </View>
   );
-}
+};
+
+export default Header;

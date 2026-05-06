@@ -20,14 +20,13 @@ import { Task } from "../types/task";
 
 const STORAGE_KEY = "tasks";
 
-
-const index = () => {
+const Index = () => {
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
 
   const total = tasks.length;
-  const completed = tasks.filter((t) => t.completed).length;
+  const completed = tasks.filter((task) => task.completed).length;
   const pending = total - completed;
   
   const text = inputText;
@@ -180,4 +179,4 @@ const index = () => {
   );
 }
 
-export default index;
+export default Index;

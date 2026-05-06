@@ -7,7 +7,7 @@ type InputProps = {
   onAdd: () => void;
 };
 
-export default function AddTaskInput({ value, onChange, onAdd }: InputProps) {
+const AddTaskInput = ({ value, onChange, onAdd }: InputProps) => {
   const canAdd = value.trim().length > 0;
 
   return (
@@ -57,4 +57,6 @@ export default function AddTaskInput({ value, onChange, onAdd }: InputProps) {
       </View>
     </View>
   );
-}
+};
+
+export default AddTaskInput;

@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import RemixIcon from "react-native-remix-icon";
 
-export default function EmptyState() {
+const EmptyState = () => {
   return (
     <View className="flex-1 items-center justify-center px-10 py-16">
       <View className="items-center justify-center mb-6">
@@ -21,3 +21,5 @@ export default function EmptyState() {
     </View>
   );
 }
+
+export default EmptyState;
