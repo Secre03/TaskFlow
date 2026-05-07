@@ -18,7 +18,7 @@ const Header = () => {
 
       <View className="flex-row items-center gap-3">
         <View className="bg-white/20 p-2 rounded-xl">
-          <RemixIcon name="task-list-edit" size={24} color="white" />
+          <RemixIcon name="checkbox-multiple-line" size={24} color="white" />
         </View>
         <View>
           <Text className="text-white text-3xl font-bold tracking-tight">
