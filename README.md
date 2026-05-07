@@ -1,5 +1,5 @@
 # 📋 TaskFlow
-**Final Project — Interactive Programming 2😚**
+**Final Project — Interactive Programming 2**
 To check by: Sir Joshua
 Submitted by: Mark John L. Milano
 
