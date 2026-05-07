@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  ScrollView,
-  Alert,
-  StatusBar,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -147,49 +141,38 @@ const Index = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50" edges={["top"]}>
-      <StatusBar barStyle="light-content" backgroundColor="#6366f1" />
+      <Header />
 
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <Header />
+      <TaskStatistics total={total} completed={completed} pending={pending} />
 
-        <TaskStatistics total={total} completed={completed} pending={pending} />
+      <AddTaskInput value={inputText} onChange={setInputText} onAdd={addTask} />
 
-        <AddTaskInput
-          value={inputText}
-          onChange={setInputText}
-          onAdd={addTask}
+      {total > 0 && (
+        <TaskActions
+          onMarkAll={markAllComplete}
+          onClearDone={deleteCompleted}
         />
+      )}
 
-        {total > 0 && (
-          <TaskActions
-            onMarkAll={markAllComplete}
-            onClearDone={deleteCompleted}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingTop: 12,
+          paddingBottom: 32,
+          flexGrow: 1,
+        }}
+      >
+        {tasks.length === 0 && <EmptyState />}
+
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
           />
-        )}
-
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingTop: 12,
-            paddingBottom: 32,
-            flexGrow: 1,
-          }}
-        >
-          {tasks.length === 0 && <EmptyState />}
-
-          {tasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              onToggle={toggleTask}
-              onDelete={deleteTask}
-            />
-          ))}
-        </ScrollView>
-      </KeyboardAvoidingView>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
