@@ -6,7 +6,7 @@ type ActionProps = {
   onClearDone: () => void;
 };
 
-const BulkActions = ({ onMarkAll, onClearDone }: ActionProps) => {
+const TaskActions = ({ onMarkAll, onClearDone }: ActionProps) => {
   return (
     <View className="flex-row items-center justify-between mx-5 mt-4 mb-1">
       <Text className="text-gray-400 text-xs font-semibold uppercase tracking-widest">
@@ -36,4 +36,4 @@ const BulkActions = ({ onMarkAll, onClearDone }: ActionProps) => {
   );
 }
 
-export default BulkActions;
+export default TaskActions;

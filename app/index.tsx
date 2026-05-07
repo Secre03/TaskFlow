@@ -10,10 +10,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../components/Header";
-import StatsPanel from "../components/StatsPanel";
+import TaskStatistics from "../components/TaskStatistics";
 import AddTaskInput from "../components/AddTaskInput";
 import TaskItem from "../components/TaskItem";
-import BulkActions from "../components/BulkActions";
+import TaskActions from "../components/TaskActions";
 import EmptyState from "../components/EmptyState";
 
 import { Task } from "../types/task";
@@ -155,7 +155,7 @@ const Index = () => {
       >
         <Header />
 
-        <StatsPanel total={total} completed={completed} pending={pending} />
+        <TaskStatistics total={total} completed={completed} pending={pending} />
 
         <AddTaskInput
           value={inputText}
@@ -164,7 +164,7 @@ const Index = () => {
         />
 
         {total > 0 && (
-          <BulkActions
+          <TaskActions
             onMarkAll={markAllComplete}
             onClearDone={deleteCompleted}
           />

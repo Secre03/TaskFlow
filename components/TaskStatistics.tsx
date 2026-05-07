@@ -7,7 +7,7 @@ type StatsProps = {
   pending: number;
 };
 
-const StatsPanel = ({ total, completed, pending }: StatsProps) => {
+const TaskStatistics = ({ total, completed, pending }: StatsProps) => {
   return (
     <View
       className="mx-5 bg-white rounded-2xl flex-row"
@@ -47,4 +47,4 @@ const StatsPanel = ({ total, completed, pending }: StatsProps) => {
   );
 };
 
-export default StatsPanel;
+export default TaskStatistics;
