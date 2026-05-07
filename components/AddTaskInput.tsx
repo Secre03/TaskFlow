@@ -8,8 +8,6 @@ type InputProps = {
 };
 
 const AddTaskInput = ({ value, onChange, onAdd }: InputProps) => {
-  const canAdd = value.length > 0;
-
   return (
     <View className="mx-5 mt-6 mb-2">
       <Text className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-2">
@@ -38,21 +36,10 @@ const AddTaskInput = ({ value, onChange, onAdd }: InputProps) => {
 
         <Pressable
           onPress={onAdd}
-          disabled={!canAdd}
-          className={`ml-2 px-4 py-2 rounded-xl flex-row items-center gap-1 ${
-            canAdd ? "bg-indigo-500" : "bg-gray-100"
-          }`}
+          className="ml-2 px-4 py-2 rounded-xl flex-row items-center gap-1 bg-indigo-500"
         >
-          <RemixIcon
-            name="add-line"
-            size={16}
-            color={canAdd ? "white" : "#d1d5db"}
-          />
-          <Text
-            className={`text-xs font-semibold ${canAdd ? "text-white" : "text-gray-300"}`}
-          >
-            Add
-          </Text>
+          <RemixIcon name="add-line" size={16} color="white" />
+          <Text className="text-white text-xs font-semibold">Add</Text>
         </Pressable>
       </View>
     </View>
